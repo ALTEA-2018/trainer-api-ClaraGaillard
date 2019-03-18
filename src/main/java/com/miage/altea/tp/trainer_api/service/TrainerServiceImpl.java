@@ -2,6 +2,10 @@ package com.miage.altea.tp.trainer_api.service;
 
 import com.miage.altea.tp.trainer_api.bo.Trainer;
 import com.miage.altea.tp.trainer_api.repository.TrainerRepository;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -34,5 +38,13 @@ public class TrainerServiceImpl implements TrainerService {
     public Trainer createTrainer(Trainer trainer) {
        Trainer newTrainer = this.trainerRepository.save(trainer);
        return newTrainer;
+    }
+
+    @Bean
+    @Override
+    public UserDetailsService userDetailsService() {
+    return username -> Optional.ofNullable((trainerService.getTrainer(username)).map(trainer ->
+                    User.withUsername(trainer.getName()).password(trainer.getPassword()).roles("USER").build().orElseThrow(() -> new BadCredentialsException("No such user"))
+            ));
     }
 }
