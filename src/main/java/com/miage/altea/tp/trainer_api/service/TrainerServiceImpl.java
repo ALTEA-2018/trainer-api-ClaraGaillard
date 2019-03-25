@@ -36,15 +36,7 @@ public class TrainerServiceImpl implements TrainerService {
 
     @Override
     public Trainer createTrainer(Trainer trainer) {
-       Trainer newTrainer = this.trainerRepository.save(trainer);
-       return newTrainer;
-    }
-
-    @Bean
-    @Override
-    public UserDetailsService userDetailsService() {
-    return username -> Optional.ofNullable((trainerService.getTrainer(username)).map(trainer ->
-                    User.withUsername(trainer.getName()).password(trainer.getPassword()).roles("USER").build().orElseThrow(() -> new BadCredentialsException("No such user"))
-            ));
+        Trainer newTrainer = this.trainerRepository.save(trainer);
+        return newTrainer;
     }
 }
