@@ -24,7 +24,6 @@ public class TrainerApi {
     @Bean
     @Autowired
     public CommandLineRunner demo(TrainerRepository repository) {
-
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
         return (args) -> {

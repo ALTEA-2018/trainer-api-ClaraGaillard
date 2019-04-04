@@ -16,6 +16,7 @@ public class TrainerServiceImpl implements TrainerService {
     private TrainerRepository trainerRepository;
 
     public TrainerServiceImpl(TrainerRepository trainerRepository) {
+
         this.trainerRepository = trainerRepository;
     }
 
@@ -39,4 +40,21 @@ public class TrainerServiceImpl implements TrainerService {
         Trainer newTrainer = this.trainerRepository.save(trainer);
         return newTrainer;
     }
+
+    @Override
+    public Trainer updateTrainer(Trainer trainer){
+        Optional<Trainer> t = this.trainerRepository.findById(trainer.getName());
+        if(t.isPresent()){
+            Trainer tempo = this.trainerRepository.save(trainer);
+            return tempo;
+        }
+        return null;
+    }
+
+    @Override
+    public void deleteTrainer(Trainer trainer){
+
+        this.trainerRepository.delete(trainer);
+    }
+
 }

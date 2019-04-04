@@ -33,17 +33,20 @@ public class TrainerController {
         }
     }
 
-    @PostMapping("/registerTrainer")
-    public Trainer registerNewTrainer(@RequestBody  Trainer trainer){
+    @PostMapping("/")
+    public Trainer createTrainer(@RequestBody  Trainer trainer){
         return trainerService.createTrainer(trainer);
     }
 
-    /*@Bean
-    @Override
-    public UserDetailsService userDetailsService() {
-        return username -> Optional.ofNullable((trainerService.getTrainer(username)).map(trainer ->
-                User.withUsername(trainer.getName()).password(trainer.getPassword()).roles("USER").build().orElseThrow(() -> new BadCredentialsException("No such user"))
-        ));
-    }*/
+    @PutMapping(value="/")
+    Trainer updateTrainer(@RequestBody Trainer trainer){
+        return trainerService.updateTrainer(trainer);
+    }
+
+    @DeleteMapping(value="/{name}")
+    void deleteTrainer(@PathVariable String name){
+        Trainer t = trainerService.getTrainer(name);
+        trainerService.deleteTrainer(t);
+    }
 
 }
